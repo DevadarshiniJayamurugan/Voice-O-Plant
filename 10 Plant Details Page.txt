@@ -1,0 +1,96 @@
+import React, { Component } from 'react';
+import { View, ScrollView, TouchableOpacity, Dimensions, ImageBackground, Linking, Image, SafeAreaView,BackHandler } from 'react-native';
+import axios from 'axios';
+import Orefuncs from 'react-native-oreopscore/components/OreOPS/general/Ore_GlobalMethods';
+import OreShapes  from 'react-native-oreopscomponent/components/OreShapes';
+import OreIcon from 'react-native-oreopscomponent/components/OreIcon';
+import OreText from 'react-native-oreopscomponent/components/OreText';
+import OreImage from 'react-native-oreopscomponent/components/OreImage';
+import {PropertyJson,Nanojson,Paramjson, Datamodel} from './PlantDetails_Config'; 
+import OreAlert from 'react-native-oreopscomponent/components/OreAlert';
+import Oreframework from 'react-native-oreopscore/components/OreOPS/general/Ore_Framework';
+import OreApibinding from '../databinding/Ore_Databinding';
+import OreDatabinding from '../databinding/Ore_Controlbinding';
+import Spinner from 'react-native-loading-spinner-overlay';
+import orethemebuilder from '../oreconfig/Ore_Themebuilder';
+import Geolocation from '@react-native-community/geolocation';
+
+let OreStyle = orethemebuilder.getStylePath()
+ 
+export default class PlantDetails extends Component {
+	static navigationOptions = {
+		header: null
+	};
+	constructor(props) {
+		super(props);
+			 window.Page_01=this;
+			this.state = {
+				orepageproperty:PropertyJson,
+				ParamJson: Paramjson,
+				pagename: "Page_01",
+				spinner: false,
+				isvalid: true,
+				datamodal: OreApibinding.GetScreenModelData(Datamodel), 
+			}
+		}
+	componentDidMount =(evt)=>{
+		   
+		this.props.navigation.addListener('willFocus', ()=>{
+		 window.Page_01 = this;
+ OreApibinding.GetScreenModelDataNew(this, Datamodel);
+		Orefuncs.SetDate(this.state);
+		OreApibinding.AutoBind(this);
+}) 
+  BackHandler.addEventListener(
+'hardwareBackPress',
+this.handleBackButtonClick,
+);  
+	}
+handleBackButtonClick=()=>{
+ return this.state.orepageproperty["Page_01"]["Default"]["canBackPress"]
+}
+	/* OreIcon : Icon_1; */
+	onPress_50007=()=>{
+		
+this.callnanoflow("Icon1-765_O348385");
+	}
+
+	callnanoflow = (evt) => {
+		Orefuncs.callnanoflow(evt, this, Nanojson)
+	}
+render() {
+	return (
+		<ImageBackground imageStyle={{resizeMode: 'stretch'}} style={[OreStyle.PageStyle, this.state.orepageproperty['Page_01']["styles"]]} source={{uri:this.state.orepageproperty['Page_01']["Property"]["backgroundImage"]}}> 
+			<ScrollView  style = {{ overflow: "scroll" }} >
+			<SafeAreaView style={{flex: 1}}>
+				<Spinner visible={this.state.spinner} />
+				<View style ={ { height:Oreframework.getH(368.00,318,560)} }>
+					<OreShapes style={this.state.orepageproperty['Rectangle_1']["styles"]} viewStyle={this.state.orepageproperty['Rectangle_1']["viewStyle"]} imageStyle={this.state.orepageproperty['Rectangle_1']["imageStyle"]} source={{uri:this.state.orepageproperty['Rectangle_1']["Property"]["source"]}}  property={this.state.orepageproperty['Rectangle_1']["Property"]}/>
+					<View style={{ height: Oreframework.getH(31,318,560), width: Oreframework.getW(32,318,560), top: Oreframework.getH(8,318,560), left: Oreframework.getW(12,318,560), position:'absolute', alignItems: 'center' }}><OreIcon icon={this.state.orepageproperty['Icon_1']["Property"]["icon"]} iconColor={this.state.orepageproperty['Icon_1']["Property"]["iconcolor"]} iconSize={this.state.orepageproperty['Icon_1']["Property"]["size"]} activeOpacity={1} type={this.state.orepageproperty['Icon_1']["Property"]["type"]}  iconType={this.state.orepageproperty['Icon_1']["Property"]["iconType"]} style={this.state.orepageproperty['Icon_1']["styles"]} inputRef={(input) => {this.Icon_1 = input}} disabled={this.state.orepageproperty['Icon_1']["Property"]["disabled"]} onPress={this.onPress_50007}/></View>
+					<OreText style={this.state.orepageproperty['Text_1']["styles"]}  title={this.state.orepageproperty['Text_1']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_1']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_1']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_2']["styles"]}  title={this.state.orepageproperty['Text_2']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_2']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_2']["Property"]["numberOfLines"]} />
+					<OreImage style={this.state.orepageproperty['Image_1']["styles"]}  source={{uri:this.state.orepageproperty['Image_1']["Property"]["source"]}} disabled={this.state.orepageproperty['Image_1']["Property"]["disabled"]} imageStyle={this.state.orepageproperty['Image_1']["imageStyle"]} activeOpacity={1} blurRadius={0} resizeMode={'contain'} />
+					<OreText style={this.state.orepageproperty['Text_4']["styles"]}  title={this.state.orepageproperty['Text_4']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_4']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_4']["Property"]["numberOfLines"]} />
+					<View style={{ height: Oreframework.getH(34,318,560), width: Oreframework.getW(34,318,560), top: Oreframework.getH(240,318,560), left: Oreframework.getW(12,318,560), position:'absolute', alignItems: 'center' }}><OreIcon icon={this.state.orepageproperty['Icon_2']["Property"]["icon"]} iconColor={this.state.orepageproperty['Icon_2']["Property"]["iconcolor"]} iconSize={this.state.orepageproperty['Icon_2']["Property"]["size"]} activeOpacity={1} type={this.state.orepageproperty['Icon_2']["Property"]["type"]}  iconType={this.state.orepageproperty['Icon_2']["Property"]["iconType"]} style={this.state.orepageproperty['Icon_2']["styles"]} inputRef={(input) => {this.Icon_2 = input}} disabled={this.state.orepageproperty['Icon_2']["Property"]["disabled"]} /></View>
+					<OreText style={this.state.orepageproperty['Text_5']["styles"]}  title={this.state.orepageproperty['Text_5']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_5']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_5']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_6']["styles"]}  title={this.state.orepageproperty['Text_6']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_6']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_6']["Property"]["numberOfLines"]} />
+					<View style={{ height: Oreframework.getH(34,318,560), width: Oreframework.getW(34,318,560), top: Oreframework.getH(287,318,560), left: Oreframework.getW(12,318,560), position:'absolute', alignItems: 'center' }}><OreIcon icon={this.state.orepageproperty['Icon_3']["Property"]["icon"]} iconColor={this.state.orepageproperty['Icon_3']["Property"]["iconcolor"]} iconSize={this.state.orepageproperty['Icon_3']["Property"]["size"]} activeOpacity={1} type={this.state.orepageproperty['Icon_3']["Property"]["type"]}  iconType={this.state.orepageproperty['Icon_3']["Property"]["iconType"]} style={this.state.orepageproperty['Icon_3']["styles"]} inputRef={(input) => {this.Icon_3 = input}} disabled={this.state.orepageproperty['Icon_3']["Property"]["disabled"]} /></View>
+					<OreShapes style={this.state.orepageproperty['Rectangle_2']["styles"]} viewStyle={this.state.orepageproperty['Rectangle_2']["viewStyle"]} imageStyle={this.state.orepageproperty['Rectangle_2']["imageStyle"]} source={{uri:this.state.orepageproperty['Rectangle_2']["Property"]["source"]}}  property={this.state.orepageproperty['Rectangle_2']["Property"]}/>
+					<OreText style={this.state.orepageproperty['Text_8']["styles"]}  title={this.state.orepageproperty['Text_8']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_8']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_8']["Property"]["numberOfLines"]} />
+					<View style={{ height: Oreframework.getH(65,318,560), width: Oreframework.getW(65,318,560), top: Oreframework.getH(284.5,318,560), left: Oreframework.getW(231,318,560), position:'absolute', alignItems: 'center' }}><OreShapes style={this.state.orepageproperty['Circle_3']["styles"]} viewStyle={this.state.orepageproperty['Circle_3']["viewStyle"]} imageStyle={this.state.orepageproperty['Circle_3']["imageStyle"]} source={{uri:this.state.orepageproperty['Circle_3']["Property"]["source"]}}  property={this.state.orepageproperty['Circle_3']["Property"]}/></View>
+				</View>
+				<View style ={ { height:Oreframework.getH(168.5,318,560)} }>
+					<View style={{ height: Oreframework.getH(34,318,560), width: Oreframework.getW(34,318,560), top: Oreframework.getH(-34.00,318,560), left: Oreframework.getW(12,318,560), position:'absolute', alignItems: 'center' }}><OreIcon icon={this.state.orepageproperty['Icon_4']["Property"]["icon"]} iconColor={this.state.orepageproperty['Icon_4']["Property"]["iconcolor"]} iconSize={this.state.orepageproperty['Icon_4']["Property"]["size"]} activeOpacity={1} type={this.state.orepageproperty['Icon_4']["Property"]["type"]}  iconType={this.state.orepageproperty['Icon_4']["Property"]["iconType"]} style={this.state.orepageproperty['Icon_4']["styles"]} inputRef={(input) => {this.Icon_4 = input}} disabled={this.state.orepageproperty['Icon_4']["Property"]["disabled"]} /></View>
+					<OreText style={this.state.orepageproperty['Text_7']["styles"]}  title={this.state.orepageproperty['Text_7']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_7']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_7']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_9']["styles"]}  title={this.state.orepageproperty['Text_9']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_9']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_9']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_10']["styles"]}  title={this.state.orepageproperty['Text_10']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_10']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_10']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_11']["styles"]}  title={this.state.orepageproperty['Text_11']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_11']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_11']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_12']["styles"]}  title={this.state.orepageproperty['Text_12']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_12']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_12']["Property"]["numberOfLines"]} />
+				</View>	
+			</SafeAreaView>
+			</ScrollView > 
+		</ImageBackground >
+
+   );
+  }
+ }

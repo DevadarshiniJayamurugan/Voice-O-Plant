@@ -1,0 +1,108 @@
+/**
+ * OREOPS Mobile library v1.0.0 (https://www.oreops.com) 
+ * Copyright 2021 OREOPS Framework Pvt Ltd. All rights reserved.
+ * Module Name : Pages
+ * Module Description : Runtime page activity will be handled using below functions
+ */
+import React, { Component } from 'react';
+import { View, ScrollView, TouchableOpacity, Dimensions, ImageBackground, Linking, Image, SafeAreaView,BackHandler } from 'react-native';
+import axios from 'axios';
+import Orefuncs from 'react-native-oreopscore/components/OreOPS/general/Ore_GlobalMethods';
+import OreHeader from 'react-native-oreopscomponent/components/OreHeader';
+import OreTextBox from 'react-native-oreopscomponent/components/OreTextBox';
+import OreCheckBox from 'react-native-oreopscomponent/components/OreCheckBox';
+import OreButton from 'react-native-oreopscomponent/components/OreButton';
+import OreText from 'react-native-oreopscomponent/components/OreText';
+import OreImage from 'react-native-oreopscomponent/components/OreImage';
+import {PropertyJson,Nanojson,Paramjson, Datamodel} from './Page4_Config'; 
+import OreAlert from 'react-native-oreopscomponent/components/OreAlert';
+import Oreframework from 'react-native-oreopscore/components/OreOPS/general/Ore_Framework';
+import OreApibinding from '../databinding/Ore_Databinding';
+import OreDatabinding from '../databinding/Ore_Controlbinding';
+import Spinner from 'react-native-loading-spinner-overlay';
+import orethemebuilder from '../oreconfig/Ore_Themebuilder';
+import Geolocation from '@react-native-community/geolocation';
+
+let OreStyle = orethemebuilder.getStylePath()
+ 
+export default class Page4 extends Component {
+	static navigationOptions = {
+		header: null
+	};
+	constructor(props) {
+		super(props);
+			 window.Page_01=this;
+			this.state = {
+				orepageproperty:PropertyJson,
+				ParamJson: Paramjson,
+				pagename: "Page_01",
+				spinner: false,
+				isvalid: true,
+				datamodal: OreApibinding.GetScreenModelData(Datamodel), 
+			}
+		}
+	componentDidMount =(evt)=>{
+		   
+		this.props.navigation.addListener('willFocus', ()=>{
+		 window.Page_01 = this;
+ OreApibinding.GetScreenModelDataNew(this, Datamodel);
+		Orefuncs.SetDate(this.state);
+		OreApibinding.AutoBind(this);
+}) 
+  BackHandler.addEventListener(
+'hardwareBackPress',
+this.handleBackButtonClick,
+);  
+	}
+handleBackButtonClick=()=>{
+ return this.state.orepageproperty["Page_01"]["Default"]["canBackPress"]
+}
+	/* OreTextBox : TextBox_1; */
+	onChangeText_50003=(evt)=>{
+		this.state.orepageproperty['TextBox_1']["Property"]["value"]= evt; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+	/* OreTextBox : TextBox_2; */
+	onChangeText_50004=(evt)=>{
+		this.state.orepageproperty['TextBox_2']["Property"]["value"]= evt; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+	/* OreCheckbox : checkbox_1; */
+
+	onValueChange_50005=(evt,item)=>{
+		this.state.orepageproperty['checkbox_1']["Property"]["selectItem"]= evt;this.state.orepageproperty['checkbox_1']["Property"]["selectItemCount"]= evt.length; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+
+	callnanoflow = (evt) => {
+		Orefuncs.callnanoflow(evt, this, Nanojson)
+	}
+render() {
+	return (
+		<ImageBackground imageStyle={{resizeMode: 'stretch'}} style={[OreStyle.PageStyle, this.state.orepageproperty['Page_01']["styles"]]} source={{uri:this.state.orepageproperty['Page_01']["Property"]["backgroundImage"]}}>
+ 	 		<View >
+				<OreHeader title={this.state.orepageproperty['Header_1']["Property"]["title"]} lefticon={this.state.orepageproperty['Header_1']["Property"]["lefticon"]}  lefticonsize={this.state.orepageproperty['Header_1']["Property"]["lefticonsizevalue"]}          style={this.state.orepageproperty['Header_1']["styles"]} textstyle={this.state.orepageproperty['Header_1']["textstyle"]} disabled={this.state.orepageproperty['Header_1']["Property"]["disabled"]}  lefticontype={this.state.orepageproperty['Header_1']["Property"]["lefticontype"]}    placement={this.state.orepageproperty['Header_1']["Property"]["textAlign"]} />
+			</View> 
+			<ScrollView  style = {{ overflow: "scroll" }} >
+			<SafeAreaView style={{flex: 1}}>
+				<Spinner visible={this.state.spinner} />
+				<View style ={ { height:Oreframework.getH(327.00,318,560)} }>
+					<OreTextBox style={this.state.orepageproperty['TextBox_1']["styles"]} type={this.state.orepageproperty['TextBox_1']["Property"]["type"]} value={this.state.orepageproperty['TextBox_1']["Property"]["value"]}  secureTextEntry={this.state.orepageproperty['TextBox_1']["Property"]["secureTextEntry"]} keyboardType={this.state.orepageproperty['TextBox_1']["Property"]["keyboardType"]} placeholder={this.state.orepageproperty['TextBox_1']["Property"]["placeHolder"]} placeholderTextColor={this.state.orepageproperty['TextBox_1']["Property"]["placeHolderTextColor"]} multiline={this.state.orepageproperty['TextBox_1']["Property"]["multiline"]} numberOfLines={this.state.orepageproperty['TextBox_1']["Property"]["numOfLines"]} maxLength={this.state.orepageproperty['TextBox_1']["Property"]["maxLength"]} disabled={this.state.orepageproperty['TextBox_1']["Property"]["disabled"]} textstyle={this.state.orepageproperty['TextBox_1']["textstyle"]} viewstyle={this.state.orepageproperty['TextBox_1']["viewstyle"]} title={this.state.orepageproperty['TextBox_1']["title"]} inputRef={(input) => {this.TextBox_1 = input}} onChangeText={this.onChangeText_50003} />
+					<OreTextBox style={this.state.orepageproperty['TextBox_2']["styles"]} type={this.state.orepageproperty['TextBox_2']["Property"]["type"]} value={this.state.orepageproperty['TextBox_2']["Property"]["value"]}  secureTextEntry={this.state.orepageproperty['TextBox_2']["Property"]["secureTextEntry"]} keyboardType={this.state.orepageproperty['TextBox_2']["Property"]["keyboardType"]} placeholder={this.state.orepageproperty['TextBox_2']["Property"]["placeHolder"]} placeholderTextColor={this.state.orepageproperty['TextBox_2']["Property"]["placeHolderTextColor"]} multiline={this.state.orepageproperty['TextBox_2']["Property"]["multiline"]} numberOfLines={this.state.orepageproperty['TextBox_2']["Property"]["numOfLines"]} maxLength={this.state.orepageproperty['TextBox_2']["Property"]["maxLength"]} disabled={this.state.orepageproperty['TextBox_2']["Property"]["disabled"]} textstyle={this.state.orepageproperty['TextBox_2']["textstyle"]} viewstyle={this.state.orepageproperty['TextBox_2']["viewstyle"]} title={this.state.orepageproperty['TextBox_2']["title"]} inputRef={(input) => {this.TextBox_2 = input}} onChangeText={this.onChangeText_50004} />
+					<OreCheckBox style={this.state.orepageproperty['checkbox_1']["styles"]} textstyle={this.state.orepageproperty['checkbox_1']["textstyle"]} title={this.state.orepageproperty['checkbox_1']["Default"]["txtctrlcaption"]} dataSource={this.state.orepageproperty['checkbox_1']["Property"]["data"]} disabled={this.state.orepageproperty['checkbox_1']["Property"]["disabled"]} tintColors={this.state.orepageproperty['checkbox_1']["Property"]["tintColors"]} selectedItems={this.state.orepageproperty['checkbox_1']["Property"]["selectItem"]} nameField={this.state.orepageproperty['checkbox_1']["Property"]["nameField"]} valueField={this.state.orepageproperty['checkbox_1']["Property"]["valueField"]} maxCount={this.state.orepageproperty['checkbox_1']["Property"]["maxSelectCount"]} flexDirection={this.state.orepageproperty['checkbox_1']["Property"]["flexDirection"]} onValueChange={this.onValueChange_50005}/>
+					<OreButton controlid='50006' controlname='Button_1' disabled={this.state.orepageproperty['Button_1']["Property"]["disabled"]} style={this.state.orepageproperty['Button_1']["styles"]} textstyle={this.state.orepageproperty['Button_1']["textstyle"]} title={this.state.orepageproperty['Button_1']["Default"]["txtctrlcaption"]} activeOpacity={this.state.orepageproperty['Button_1']["Property"]["activeOpacity"]} inputRef={(input) => {this.Button_1 = input}} />
+					<OreImage style={this.state.orepageproperty['Image_2']["styles"]}  source={{uri:this.state.orepageproperty['Image_2']["Property"]["source"]}} disabled={this.state.orepageproperty['Image_2']["Property"]["disabled"]} imageStyle={this.state.orepageproperty['Image_2']["imageStyle"]} activeOpacity={0.5} blurRadius={0} resizeMode={'stretch'} />
+				</View>
+				<View style ={ { height:Oreframework.getH(153,318,560)} }>
+					<OreText style={this.state.orepageproperty['Text_1']["styles"]}  title={this.state.orepageproperty['Text_1']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_1']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_1']["Property"]["numberOfLines"]} />
+					<OreButton controlid='50008' controlname='Button_2' disabled={this.state.orepageproperty['Button_2']["Property"]["disabled"]} style={this.state.orepageproperty['Button_2']["styles"]} textstyle={this.state.orepageproperty['Button_2']["textstyle"]} title={this.state.orepageproperty['Button_2']["Default"]["txtctrlcaption"]} activeOpacity={this.state.orepageproperty['Button_2']["Property"]["activeOpacity"]} inputRef={(input) => {this.Button_2 = input}} />
+					<OreText style={this.state.orepageproperty['Text_2']["styles"]}  title={this.state.orepageproperty['Text_2']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_2']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_2']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_3']["styles"]}  title={this.state.orepageproperty['Text_3']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_3']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_3']["Property"]["numberOfLines"]} />
+				</View>	
+			</SafeAreaView>
+			</ScrollView > 
+		</ImageBackground >
+
+   );
+  }
+ }

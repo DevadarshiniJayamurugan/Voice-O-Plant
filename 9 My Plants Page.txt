@@ -1,0 +1,460 @@
+import React, { Component } from 'react';
+import { View, ScrollView, TouchableOpacity, Dimensions, ImageBackground, Linking, Image, SafeAreaView,BackHandler } from 'react-native';
+import axios from 'axios';
+import Orefuncs from 'react-native-oreopscore/components/OreOPS/general/Ore_GlobalMethods';
+import OreIcon from 'react-native-oreopscomponent/components/OreIcon';
+import OreImage from 'react-native-oreopscomponent/components/OreImage';
+import OreText from 'react-native-oreopscomponent/components/OreText';
+import OreFlatList from 'react-native-oreopscomponent/components/OreFlatList';
+import OreShapes  from 'react-native-oreopscomponent/components/OreShapes';
+import OreCustomList from './MyPlants_List';
+ 
+import {PropertyJson,Nanojson,Paramjson, Datamodel} from './MyPlants_Config'; 
+import OreAlert from 'react-native-oreopscomponent/components/OreAlert';
+import Oreframework from 'react-native-oreopscore/components/OreOPS/general/Ore_Framework';
+import OreApibinding from '../databinding/Ore_Databinding';
+import OreDatabinding from '../databinding/Ore_Controlbinding';
+import Spinner from 'react-native-loading-spinner-overlay';
+import orethemebuilder from '../oreconfig/Ore_Themebuilder';
+import Geolocation from '@react-native-community/geolocation';
+
+let OreStyle = orethemebuilder.getStylePath()
+ 
+export default class MyPlants extends Component {
+	static navigationOptions = {
+		header: null
+	};
+	constructor(props) {
+		super(props);
+			 window.Page_01=this;
+			this.state = {
+				orepageproperty:PropertyJson,
+				ParamJson: Paramjson,
+				pagename: "Page_01",
+				spinner: false,
+				isvalid: true,
+				datamodal: OreApibinding.GetScreenModelData(Datamodel),
+		DATA:PropertyJson['Flat_1']["Property"]["data"], 
+		text:''
+			}
+		}
+	componentDidMount =(evt)=>{
+		   
+		this.props.navigation.addListener('willFocus', ()=>{
+		 window.Page_01 = this;
+ OreApibinding.GetScreenModelDataNew(this, Datamodel);
+		Orefuncs.SetDate(this.state);
+		OreApibinding.AutoBind(this);
+}) 
+  BackHandler.addEventListener(
+'hardwareBackPress',
+this.handleBackButtonClick,
+);  
+	}
+handleBackButtonClick=()=>{
+ return this.state.orepageproperty["Page_01"]["Default"]["canBackPress"]
+}
+	/* OreListView : Flat_1; */
+	onLoad_50007=(item, index)=>{
+	}
+	/* OreListView : Flat_1; */
+	onPress_50007=(item, index)=>{
+		OreApibinding.ModelSet(this,'O348388',item);
+Orefuncs.SetLocalStorage("Flat_1_O348378",item);
+		
+this.callnanoflow("Flat1-879_O348390");
+		
+	}
+	/* OreListView : Flat_1; */
+	onLongPress_50007=(item, index)=>{
+		
+		}
+	/* OreListView : Flat_1; */
+	onRefresh50007=()=>{
+
+		this.state.orepageproperty["Flat_1"]["Property"]["isrefreshing"] = true;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+		
+		
+		this.state.orepageproperty["Flat_1"]["Property"]["isrefreshing"] = false;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+	}
+	/* OreListView : Flat_1; */
+	onPress_Swipe50007=(item, index, iconCode)=>{
+
+		switch (iconCode) {
+		}
+		}
+	SearchFilterFunctionFlat_1=(text) =>{
+		const textData = text.toLowerCase();
+		this.state.orepageproperty['Flat_1']["Property"]["searchValue"]= text;
+		this.setState({orepageproperty: this.state.orepageproperty});
+		if (!this.state.orepageproperty['Flat_1']["Property"]["onDemandSearch"]) {
+		 const newData = this.state.orepageproperty['Flat_1']["Property"]["data1"].filter(item => {
+		return Object.keys(item).some(key =>
+		JSON.stringify(item).toString().toLowerCase().includes(textData) 
+		);
+		});
+		if(newData != ""){
+			this.state.orepageproperty['Flat_1']["Property"]["data"]= newData; 
+			}else{
+			this.state.orepageproperty['Flat_1']["Property"]["data"]= newData;
+			
+		}
+		if(text == ""){
+			this.state.orepageproperty['Flat_1']["Property"]["data"]= this.state.orepageproperty['Flat_1']["Property"]["data1"];}
+}
+	}
+onChangedemandFlat_1=async()=>{
+		if(!this.state.orepageproperty['Flat_1']["Property"]["searchtextlength"] || this.state.orepageproperty['Flat_1']["Property"]["searchtextlength"] <=0 || this.state.orepageproperty['Flat_1']["Property"]["searchValue"].length >= this.state.orepageproperty['Flat_1']["Property"]["searchtextlength"]){
+		var modelCode = this.state.orepageproperty['Flat_1']["Property"]["datamodelsearch"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0]; 
+		await OreApibinding.SearchModelSet(this, modelCode , this.state.orepageproperty['Flat_1']["Property"]["datafieldsearch"], this.state.orepageproperty['Flat_1']["Property"]["searchValue"]);
+		var controlname = 'Flat_1';
+		this.state.orepageproperty['Flat_1'].Property.contentLoader = 'flex';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");}
+		}
+		else
+		{alert("Please enter minimum of "+this.state.orepageproperty['Flat_1']["Property"]["searchtextlength"]+ " Charaters")
+		}
+		}
+onEndReachedFlat_1=()=>{
+		setTimeout(async() => {
+		if (this.state.orepageproperty['Flat_1']["Property"]["onDemandLoading"] && this.state.orepageproperty['Flat_1']["Property"]["fromApi"]) {
+		var modelCode = this.state.orepageproperty['Flat_1']["Property"]["datamodelpagination"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0];
+		await OreApibinding.SearchModelSet(this, modelCode, this.state.orepageproperty['Flat_1']["Property"]["datafieldpagination"], this.state.orepageproperty['Flat_1']['Property']['offset']);
+		var controlname =  'Flat_1';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");
+		}
+		}else{
+		const datatest = this.state.orepageproperty['Flat_1']["Property"]["data1"].slice((this.state.orepageproperty['Flat_1']['Property']['offset'] * this.state.orepageproperty['Flat_1']['Property']['load']),((this.state.orepageproperty['Flat_1']['Property']['offset'] + 1) * this.state.orepageproperty['Flat_1']['Property']['load']))
+		this.state.orepageproperty['Flat_1']["Property"]["data"] = [...this.state.orepageproperty['Flat_1']["Property"]["data"], ...datatest]
+		this.state.orepageproperty['Flat_1']['Property']['offset'] = this.state.orepageproperty['Flat_1']['Property']['offset'] + 1;
+		if (this.state.orepageproperty['Flat_1']["Property"]["data"].length == this.state.orepageproperty['Flat_1']["Property"]["data1"].length){
+		this.state.orepageproperty['Flat_1']["Property"]["scrollComplete"] = true}
+		}
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		}, 1500);
+		}
+	/* OreListView : Flat_2; */
+	onLoad_50036=(item, index)=>{
+	}
+	/* OreListView : Flat_2; */
+	onPress_50036=(item, index)=>{
+		Orefuncs.SetLocalStorage("Flat_2_O348378",item);
+		
+		
+	}
+	/* OreListView : Flat_2; */
+	onLongPress_50036=(item, index)=>{
+		
+		}
+	/* OreListView : Flat_2; */
+	onRefresh50036=()=>{
+
+		this.state.orepageproperty["Flat_2"]["Property"]["isrefreshing"] = true;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+		
+		
+		this.state.orepageproperty["Flat_2"]["Property"]["isrefreshing"] = false;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+	}
+	/* OreListView : Flat_2; */
+	onPress_Swipe50036=(item, index, iconCode)=>{
+
+		switch (iconCode) {
+		}
+		}
+	SearchFilterFunctionFlat_2=(text) =>{
+		const textData = text.toLowerCase();
+		this.state.orepageproperty['Flat_2']["Property"]["searchValue"]= text;
+		this.setState({orepageproperty: this.state.orepageproperty});
+		if (!this.state.orepageproperty['Flat_2']["Property"]["onDemandSearch"]) {
+		 const newData = this.state.orepageproperty['Flat_2']["Property"]["data1"].filter(item => {
+		return Object.keys(item).some(key =>
+		JSON.stringify(item).toString().toLowerCase().includes(textData) 
+		);
+		});
+		if(newData != ""){
+			this.state.orepageproperty['Flat_2']["Property"]["data"]= newData; 
+			}else{
+			this.state.orepageproperty['Flat_2']["Property"]["data"]= newData;
+			
+		}
+		if(text == ""){
+			this.state.orepageproperty['Flat_2']["Property"]["data"]= this.state.orepageproperty['Flat_2']["Property"]["data1"];}
+}
+	}
+onChangedemandFlat_2=async()=>{
+		if(!this.state.orepageproperty['Flat_2']["Property"]["searchtextlength"] || this.state.orepageproperty['Flat_2']["Property"]["searchtextlength"] <=0 || this.state.orepageproperty['Flat_2']["Property"]["searchValue"].length >= this.state.orepageproperty['Flat_2']["Property"]["searchtextlength"]){
+		var modelCode = this.state.orepageproperty['Flat_2']["Property"]["datamodelsearch"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0]; 
+		await OreApibinding.SearchModelSet(this, modelCode , this.state.orepageproperty['Flat_2']["Property"]["datafieldsearch"], this.state.orepageproperty['Flat_2']["Property"]["searchValue"]);
+		var controlname = 'Flat_2';
+		this.state.orepageproperty['Flat_2'].Property.contentLoader = 'flex';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");}
+		}
+		else
+		{alert("Please enter minimum of "+this.state.orepageproperty['Flat_2']["Property"]["searchtextlength"]+ " Charaters")
+		}
+		}
+onEndReachedFlat_2=()=>{
+		setTimeout(async() => {
+		if (this.state.orepageproperty['Flat_2']["Property"]["onDemandLoading"] && this.state.orepageproperty['Flat_2']["Property"]["fromApi"]) {
+		var modelCode = this.state.orepageproperty['Flat_2']["Property"]["datamodelpagination"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0];
+		await OreApibinding.SearchModelSet(this, modelCode, this.state.orepageproperty['Flat_2']["Property"]["datafieldpagination"], this.state.orepageproperty['Flat_2']['Property']['offset']);
+		var controlname =  'Flat_2';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");
+		}
+		}else{
+		const datatest = this.state.orepageproperty['Flat_2']["Property"]["data1"].slice((this.state.orepageproperty['Flat_2']['Property']['offset'] * this.state.orepageproperty['Flat_2']['Property']['load']),((this.state.orepageproperty['Flat_2']['Property']['offset'] + 1) * this.state.orepageproperty['Flat_2']['Property']['load']))
+		this.state.orepageproperty['Flat_2']["Property"]["data"] = [...this.state.orepageproperty['Flat_2']["Property"]["data"], ...datatest]
+		this.state.orepageproperty['Flat_2']['Property']['offset'] = this.state.orepageproperty['Flat_2']['Property']['offset'] + 1;
+		if (this.state.orepageproperty['Flat_2']["Property"]["data"].length == this.state.orepageproperty['Flat_2']["Property"]["data1"].length){
+		this.state.orepageproperty['Flat_2']["Property"]["scrollComplete"] = true}
+		}
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		}, 1500);
+		}
+	/* OreListView : Flat_3; */
+	onLoad_50041=(item, index)=>{
+	}
+	/* OreListView : Flat_3; */
+	onPress_50041=(item, index)=>{
+		Orefuncs.SetLocalStorage("Flat_3_O348378",item);
+		
+		
+	}
+	/* OreListView : Flat_3; */
+	onLongPress_50041=(item, index)=>{
+		
+		}
+	/* OreListView : Flat_3; */
+	onRefresh50041=()=>{
+
+		this.state.orepageproperty["Flat_3"]["Property"]["isrefreshing"] = true;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+		
+		
+		this.state.orepageproperty["Flat_3"]["Property"]["isrefreshing"] = false;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+	}
+	/* OreListView : Flat_3; */
+	onPress_Swipe50041=(item, index, iconCode)=>{
+
+		switch (iconCode) {
+		}
+		}
+	SearchFilterFunctionFlat_3=(text) =>{
+		const textData = text.toLowerCase();
+		this.state.orepageproperty['Flat_3']["Property"]["searchValue"]= text;
+		this.setState({orepageproperty: this.state.orepageproperty});
+		if (!this.state.orepageproperty['Flat_3']["Property"]["onDemandSearch"]) {
+		 const newData = this.state.orepageproperty['Flat_3']["Property"]["data1"].filter(item => {
+		return Object.keys(item).some(key =>
+		JSON.stringify(item).toString().toLowerCase().includes(textData) 
+		);
+		});
+		if(newData != ""){
+			this.state.orepageproperty['Flat_3']["Property"]["data"]= newData; 
+			}else{
+			this.state.orepageproperty['Flat_3']["Property"]["data"]= newData;
+			
+		}
+		if(text == ""){
+			this.state.orepageproperty['Flat_3']["Property"]["data"]= this.state.orepageproperty['Flat_3']["Property"]["data1"];}
+}
+	}
+onChangedemandFlat_3=async()=>{
+		if(!this.state.orepageproperty['Flat_3']["Property"]["searchtextlength"] || this.state.orepageproperty['Flat_3']["Property"]["searchtextlength"] <=0 || this.state.orepageproperty['Flat_3']["Property"]["searchValue"].length >= this.state.orepageproperty['Flat_3']["Property"]["searchtextlength"]){
+		var modelCode = this.state.orepageproperty['Flat_3']["Property"]["datamodelsearch"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0]; 
+		await OreApibinding.SearchModelSet(this, modelCode , this.state.orepageproperty['Flat_3']["Property"]["datafieldsearch"], this.state.orepageproperty['Flat_3']["Property"]["searchValue"]);
+		var controlname = 'Flat_3';
+		this.state.orepageproperty['Flat_3'].Property.contentLoader = 'flex';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");}
+		}
+		else
+		{alert("Please enter minimum of "+this.state.orepageproperty['Flat_3']["Property"]["searchtextlength"]+ " Charaters")
+		}
+		}
+onEndReachedFlat_3=()=>{
+		setTimeout(async() => {
+		if (this.state.orepageproperty['Flat_3']["Property"]["onDemandLoading"] && this.state.orepageproperty['Flat_3']["Property"]["fromApi"]) {
+		var modelCode = this.state.orepageproperty['Flat_3']["Property"]["datamodelpagination"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0];
+		await OreApibinding.SearchModelSet(this, modelCode, this.state.orepageproperty['Flat_3']["Property"]["datafieldpagination"], this.state.orepageproperty['Flat_3']['Property']['offset']);
+		var controlname =  'Flat_3';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");
+		}
+		}else{
+		const datatest = this.state.orepageproperty['Flat_3']["Property"]["data1"].slice((this.state.orepageproperty['Flat_3']['Property']['offset'] * this.state.orepageproperty['Flat_3']['Property']['load']),((this.state.orepageproperty['Flat_3']['Property']['offset'] + 1) * this.state.orepageproperty['Flat_3']['Property']['load']))
+		this.state.orepageproperty['Flat_3']["Property"]["data"] = [...this.state.orepageproperty['Flat_3']["Property"]["data"], ...datatest]
+		this.state.orepageproperty['Flat_3']['Property']['offset'] = this.state.orepageproperty['Flat_3']['Property']['offset'] + 1;
+		if (this.state.orepageproperty['Flat_3']["Property"]["data"].length == this.state.orepageproperty['Flat_3']["Property"]["data1"].length){
+		this.state.orepageproperty['Flat_3']["Property"]["scrollComplete"] = true}
+		}
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		}, 1500);
+		}
+	/* OreListView : Flat_4; */
+	onLoad_50046=(item, index)=>{
+	}
+	/* OreListView : Flat_4; */
+	onPress_50046=(item, index)=>{
+		Orefuncs.SetLocalStorage("Flat_4_O348378",item);
+		
+		
+	}
+	/* OreListView : Flat_4; */
+	onLongPress_50046=(item, index)=>{
+		
+		}
+	/* OreListView : Flat_4; */
+	onRefresh50046=()=>{
+
+		this.state.orepageproperty["Flat_4"]["Property"]["isrefreshing"] = true;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+		
+		
+		this.state.orepageproperty["Flat_4"]["Property"]["isrefreshing"] = false;
+		
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		
+	}
+	/* OreListView : Flat_4; */
+	onPress_Swipe50046=(item, index, iconCode)=>{
+
+		switch (iconCode) {
+		}
+		}
+	SearchFilterFunctionFlat_4=(text) =>{
+		const textData = text.toLowerCase();
+		this.state.orepageproperty['Flat_4']["Property"]["searchValue"]= text;
+		this.setState({orepageproperty: this.state.orepageproperty});
+		if (!this.state.orepageproperty['Flat_4']["Property"]["onDemandSearch"]) {
+		 const newData = this.state.orepageproperty['Flat_4']["Property"]["data1"].filter(item => {
+		return Object.keys(item).some(key =>
+		JSON.stringify(item).toString().toLowerCase().includes(textData) 
+		);
+		});
+		if(newData != ""){
+			this.state.orepageproperty['Flat_4']["Property"]["data"]= newData; 
+			}else{
+			this.state.orepageproperty['Flat_4']["Property"]["data"]= newData;
+			
+		}
+		if(text == ""){
+			this.state.orepageproperty['Flat_4']["Property"]["data"]= this.state.orepageproperty['Flat_4']["Property"]["data1"];}
+}
+	}
+onChangedemandFlat_4=async()=>{
+		if(!this.state.orepageproperty['Flat_4']["Property"]["searchtextlength"] || this.state.orepageproperty['Flat_4']["Property"]["searchtextlength"] <=0 || this.state.orepageproperty['Flat_4']["Property"]["searchValue"].length >= this.state.orepageproperty['Flat_4']["Property"]["searchtextlength"]){
+		var modelCode = this.state.orepageproperty['Flat_4']["Property"]["datamodelsearch"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0]; 
+		await OreApibinding.SearchModelSet(this, modelCode , this.state.orepageproperty['Flat_4']["Property"]["datafieldsearch"], this.state.orepageproperty['Flat_4']["Property"]["searchValue"]);
+		var controlname = 'Flat_4';
+		this.state.orepageproperty['Flat_4'].Property.contentLoader = 'flex';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");}
+		}
+		else
+		{alert("Please enter minimum of "+this.state.orepageproperty['Flat_4']["Property"]["searchtextlength"]+ " Charaters")
+		}
+		}
+onEndReachedFlat_4=()=>{
+		setTimeout(async() => {
+		if (this.state.orepageproperty['Flat_4']["Property"]["onDemandLoading"] && this.state.orepageproperty['Flat_4']["Property"]["fromApi"]) {
+		var modelCode = this.state.orepageproperty['Flat_4']["Property"]["datamodelpagination"];
+		if (modelCode != undefined && modelCode != null && modelCode != '') {
+		modelCode = modelCode.split('#')[0];
+		await OreApibinding.SearchModelSet(this, modelCode, this.state.orepageproperty['Flat_4']["Property"]["datafieldpagination"], this.state.orepageproperty['Flat_4']['Property']['offset']);
+		var controlname =  'Flat_4';
+		OreApibinding.SetDataBinding(this, controlname, "Flat");
+		}
+		}else{
+		const datatest = this.state.orepageproperty['Flat_4']["Property"]["data1"].slice((this.state.orepageproperty['Flat_4']['Property']['offset'] * this.state.orepageproperty['Flat_4']['Property']['load']),((this.state.orepageproperty['Flat_4']['Property']['offset'] + 1) * this.state.orepageproperty['Flat_4']['Property']['load']))
+		this.state.orepageproperty['Flat_4']["Property"]["data"] = [...this.state.orepageproperty['Flat_4']["Property"]["data"], ...datatest]
+		this.state.orepageproperty['Flat_4']['Property']['offset'] = this.state.orepageproperty['Flat_4']['Property']['offset'] + 1;
+		if (this.state.orepageproperty['Flat_4']["Property"]["data"].length == this.state.orepageproperty['Flat_4']["Property"]["data1"].length){
+		this.state.orepageproperty['Flat_4']["Property"]["scrollComplete"] = true}
+		}
+		this.setState({ orepageproperty: this.state.orepageproperty });
+		}, 1500);
+		}
+
+	callnanoflow = (evt) => {
+		Orefuncs.callnanoflow(evt, this, Nanojson)
+	}
+render() {
+	return (
+		<ImageBackground imageStyle={{resizeMode: 'stretch'}} style={[OreStyle.PageStyle, this.state.orepageproperty['Page_01']["styles"]]} source={{uri:this.state.orepageproperty['Page_01']["Property"]["backgroundImage"]}}> 
+			<ScrollView  style = {{ overflow: "scroll" }} >
+			<SafeAreaView style={{flex: 1}}>
+				<Spinner visible={this.state.spinner} />
+				<View style ={ { height:Oreframework.getH(91,318,560)} }>
+					<View style={{ height: Oreframework.getH(31,318,560), width: Oreframework.getW(32,318,560), top: Oreframework.getH(8,318,560), left: Oreframework.getW(12,318,560), position:'absolute', alignItems: 'center' }}><OreIcon icon={this.state.orepageproperty['Icon_1']["Property"]["icon"]} iconColor={this.state.orepageproperty['Icon_1']["Property"]["iconcolor"]} iconSize={this.state.orepageproperty['Icon_1']["Property"]["size"]} activeOpacity={1} type={this.state.orepageproperty['Icon_1']["Property"]["type"]}  iconType={this.state.orepageproperty['Icon_1']["Property"]["iconType"]} style={this.state.orepageproperty['Icon_1']["styles"]} inputRef={(input) => {this.Icon_1 = input}} disabled={this.state.orepageproperty['Icon_1']["Property"]["disabled"]} /></View>
+					<View style={{ height: Oreframework.getH(80,318,560), width: Oreframework.getW(80,318,560), top: Oreframework.getH(2,318,560), left: Oreframework.getW(236,318,560), position:'absolute', alignItems: 'center' }}><OreImage style={this.state.orepageproperty['Image_1']["styles"]}  source={this.state.orepageproperty['Image_1']["Property"]["assetlink"]} disabled={this.state.orepageproperty['Image_1']["Property"]["disabled"]} imageStyle={this.state.orepageproperty['Image_1']["imageStyle"]} activeOpacity={1} blurRadius={0} resizeMode={'stretch'} /></View>
+					<OreText style={this.state.orepageproperty['Text_1']["styles"]}  title={this.state.orepageproperty['Text_1']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_1']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_1']["Property"]["numberOfLines"]} />
+				</View>
+				<View>
+					<OreFlatList  horizontal ={this.state.orepageproperty['Flat_1']["Property"]["isHorizontal"]} searchTextStyle  = {this.state.orepageproperty['Flat_1']["searchTextStyle"]} searchViewStyle = {this.state.orepageproperty['Flat_1']["searchViewStyle"]} source ={{uri:this.state.orepageproperty['Flat_1']["Property"]["source"]}}  viewStyle = {this.state.orepageproperty['Flat_1']["viewStyle"]} imageStyle = {this.state.orepageproperty['Flat_1']["imageStyle"]}    dataSource = {this.state.orepageproperty['Flat_1']["Property"]["data"]} disabled ={this.state.orepageproperty['Flat_1']["Property"]["disabled"]} searchValue ={this.state.orepageproperty['Flat_1']["Property"]["searchValue"]} property = {this.state.orepageproperty['Flat_1']["Property"]} swipeEvents = {this.state.orepageproperty['Flat_1']["swipeEvents"]} searchevt = {text => this.onChangedemandFlat_1(text)} onChangeTextSearch = {text => this.SearchFilterFunctionFlat_1(text)} searchIconClose = {()=>this.SearchFilterFunctionFlat_1('')}               dynamicComponent={OreCustomList} dynamicComponentType={this.state.orepageproperty['Flat_1']["Property"]["dynamicComponentStyle"]} onLoad={this.onLoad_50007.bind(this)}onPress={this.onPress_50007.bind(this)}onLongPress={this.onLongPress_50007.bind(this)}onRefresh={this.onRefresh50007.bind(this)} onPress_Swipe ={this.onPress_Swipe50007.bind(this)} onEndReached={this.onEndReachedFlat_1.bind(this)}  />
+				</View>
+				<View style ={ { height:Oreframework.getH(155,318,560),overflow :"hidden"} }>
+					<OreFlatList  horizontal ={this.state.orepageproperty['Flat_2']["Property"]["isHorizontal"]} searchTextStyle  = {this.state.orepageproperty['Flat_2']["searchTextStyle"]} searchViewStyle = {this.state.orepageproperty['Flat_2']["searchViewStyle"]} source ={{uri:this.state.orepageproperty['Flat_2']["Property"]["source"]}}  viewStyle = {this.state.orepageproperty['Flat_2']["viewStyle"]} imageStyle = {this.state.orepageproperty['Flat_2']["imageStyle"]}    dataSource = {this.state.orepageproperty['Flat_2']["Property"]["data"]} disabled ={this.state.orepageproperty['Flat_2']["Property"]["disabled"]} searchValue ={this.state.orepageproperty['Flat_2']["Property"]["searchValue"]} property = {this.state.orepageproperty['Flat_2']["Property"]} swipeEvents = {this.state.orepageproperty['Flat_2']["swipeEvents"]} searchevt = {text => this.onChangedemandFlat_2(text)} onChangeTextSearch = {text => this.SearchFilterFunctionFlat_2(text)} searchIconClose = {()=>this.SearchFilterFunctionFlat_2('')}               dynamicComponent={OreCustomList} dynamicComponentType={this.state.orepageproperty['Flat_2']["Property"]["dynamicComponentStyle"]} onLoad={this.onLoad_50036.bind(this)}onPress={this.onPress_50036.bind(this)}onLongPress={this.onLongPress_50036.bind(this)}onRefresh={this.onRefresh50036.bind(this)} onPress_Swipe ={this.onPress_Swipe50036.bind(this)} onEndReached={this.onEndReachedFlat_2.bind(this)}  />
+				</View>
+				<View style ={ { height:Oreframework.getH(0,318,560)} }>
+					<OreShapes style={this.state.orepageproperty['Rectangle_2']["styles"]} viewStyle={this.state.orepageproperty['Rectangle_2']["viewStyle"]} imageStyle={this.state.orepageproperty['Rectangle_2']["imageStyle"]} source={{uri:this.state.orepageproperty['Rectangle_2']["Property"]["source"]}}  property={this.state.orepageproperty['Rectangle_2']["Property"]}/>
+				</View>
+				<View style ={ { height:Oreframework.getH(51.5,318,560)} }>
+					<OreImage style={this.state.orepageproperty['Image_3']["styles"]}  source={{uri:this.state.orepageproperty['Image_3']["Property"]["source"]}} disabled={this.state.orepageproperty['Image_3']["Property"]["disabled"]} imageStyle={this.state.orepageproperty['Image_3']["imageStyle"]} activeOpacity={1} blurRadius={0} resizeMode={'contain'} />
+					<OreText style={this.state.orepageproperty['Text_4']["styles"]}  title={this.state.orepageproperty['Text_4']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_4']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_4']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_5']["styles"]}  title={this.state.orepageproperty['Text_5']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_5']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_5']["Property"]["numberOfLines"]} />
+				</View>
+				<View style ={ { height:Oreframework.getH(150,318,560),overflow :"hidden"} }>
+					<OreFlatList  horizontal ={this.state.orepageproperty['Flat_3']["Property"]["isHorizontal"]} searchTextStyle  = {this.state.orepageproperty['Flat_3']["searchTextStyle"]} searchViewStyle = {this.state.orepageproperty['Flat_3']["searchViewStyle"]} source ={{uri:this.state.orepageproperty['Flat_3']["Property"]["source"]}}  viewStyle = {this.state.orepageproperty['Flat_3']["viewStyle"]} imageStyle = {this.state.orepageproperty['Flat_3']["imageStyle"]}    dataSource = {this.state.orepageproperty['Flat_3']["Property"]["data"]} disabled ={this.state.orepageproperty['Flat_3']["Property"]["disabled"]} searchValue ={this.state.orepageproperty['Flat_3']["Property"]["searchValue"]} property = {this.state.orepageproperty['Flat_3']["Property"]} swipeEvents = {this.state.orepageproperty['Flat_3']["swipeEvents"]} searchevt = {text => this.onChangedemandFlat_3(text)} onChangeTextSearch = {text => this.SearchFilterFunctionFlat_3(text)} searchIconClose = {()=>this.SearchFilterFunctionFlat_3('')}               dynamicComponent={OreCustomList} dynamicComponentType={this.state.orepageproperty['Flat_3']["Property"]["dynamicComponentStyle"]} onLoad={this.onLoad_50041.bind(this)}onPress={this.onPress_50041.bind(this)}onLongPress={this.onLongPress_50041.bind(this)}onRefresh={this.onRefresh50041.bind(this)} onPress_Swipe ={this.onPress_Swipe50041.bind(this)} onEndReached={this.onEndReachedFlat_3.bind(this)}  />
+				</View>
+				<View style ={ { height:Oreframework.getH(0,318,560)} }>
+					<OreShapes style={this.state.orepageproperty['Rectangle_3']["styles"]} viewStyle={this.state.orepageproperty['Rectangle_3']["viewStyle"]} imageStyle={this.state.orepageproperty['Rectangle_3']["imageStyle"]} source={{uri:this.state.orepageproperty['Rectangle_3']["Property"]["source"]}}  property={this.state.orepageproperty['Rectangle_3']["Property"]}/>
+					<OreText style={this.state.orepageproperty['Text_6']["styles"]}  title={this.state.orepageproperty['Text_6']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_6']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_6']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_7']["styles"]}  title={this.state.orepageproperty['Text_7']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_7']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_7']["Property"]["numberOfLines"]} />
+					<OreImage style={this.state.orepageproperty['Image_5']["styles"]}  source={{uri:this.state.orepageproperty['Image_5']["Property"]["source"]}} disabled={this.state.orepageproperty['Image_5']["Property"]["disabled"]} imageStyle={this.state.orepageproperty['Image_5']["imageStyle"]} activeOpacity={1} blurRadius={0} resizeMode={'contain'} />
+				</View>
+				<View style ={ { height:Oreframework.getH(158,318,560),overflow :"hidden"} }>
+					<OreFlatList  horizontal ={this.state.orepageproperty['Flat_4']["Property"]["isHorizontal"]} searchTextStyle  = {this.state.orepageproperty['Flat_4']["searchTextStyle"]} searchViewStyle = {this.state.orepageproperty['Flat_4']["searchViewStyle"]} source ={{uri:this.state.orepageproperty['Flat_4']["Property"]["source"]}}  viewStyle = {this.state.orepageproperty['Flat_4']["viewStyle"]} imageStyle = {this.state.orepageproperty['Flat_4']["imageStyle"]}    dataSource = {this.state.orepageproperty['Flat_4']["Property"]["data"]} disabled ={this.state.orepageproperty['Flat_4']["Property"]["disabled"]} searchValue ={this.state.orepageproperty['Flat_4']["Property"]["searchValue"]} property = {this.state.orepageproperty['Flat_4']["Property"]} swipeEvents = {this.state.orepageproperty['Flat_4']["swipeEvents"]} searchevt = {text => this.onChangedemandFlat_4(text)} onChangeTextSearch = {text => this.SearchFilterFunctionFlat_4(text)} searchIconClose = {()=>this.SearchFilterFunctionFlat_4('')}               dynamicComponent={OreCustomList} dynamicComponentType={this.state.orepageproperty['Flat_4']["Property"]["dynamicComponentStyle"]} onLoad={this.onLoad_50046.bind(this)}onPress={this.onPress_50046.bind(this)}onLongPress={this.onLongPress_50046.bind(this)}onRefresh={this.onRefresh50046.bind(this)} onPress_Swipe ={this.onPress_Swipe50046.bind(this)} onEndReached={this.onEndReachedFlat_4.bind(this)}  />
+				</View>
+				<View style ={ { height:Oreframework.getH(5,318,560)} }>
+					<OreShapes style={this.state.orepageproperty['Rectangle_4']["styles"]} viewStyle={this.state.orepageproperty['Rectangle_4']["viewStyle"]} imageStyle={this.state.orepageproperty['Rectangle_4']["imageStyle"]} source={{uri:this.state.orepageproperty['Rectangle_4']["Property"]["source"]}}  property={this.state.orepageproperty['Rectangle_4']["Property"]}/>
+					<OreText style={this.state.orepageproperty['Text_9']["styles"]}  title={this.state.orepageproperty['Text_9']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_9']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_9']["Property"]["numberOfLines"]} />
+					<OreText style={this.state.orepageproperty['Text_10']["styles"]}  title={this.state.orepageproperty['Text_10']["Default"]["txtctrlcaption"]} disabled={this.state.orepageproperty['Text_10']["Property"]["disabled"]} numberOfLines={this.state.orepageproperty['Text_10']["Property"]["numberOfLines"]} />
+					<OreImage style={this.state.orepageproperty['Image_6']["styles"]}  source={{uri:this.state.orepageproperty['Image_6']["Property"]["source"]}} disabled={this.state.orepageproperty['Image_6']["Property"]["disabled"]} imageStyle={this.state.orepageproperty['Image_6']["imageStyle"]} activeOpacity={1} blurRadius={0} resizeMode={'contain'} />
+				</View>	
+			</SafeAreaView>
+			</ScrollView > 
+		</ImageBackground >
+
+   );
+  }
+ }

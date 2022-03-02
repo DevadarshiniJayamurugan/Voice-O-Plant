@@ -1,0 +1,84 @@
+import React,{useState} from 'react';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import OreDrawer from 'react-native-oreopscomponent/components/OreDrawer';
+import Orefuncs from 'react-native-oreopscore/components/OreOPS/general/Ore_GlobalMethods';
+import Oreframework from 'react-native-oreopscore/components/OreOPS/general/Ore_Framework';
+import OreAlert from 'react-native-oreopscomponent/components/OreAlert';
+import OreApibinding from '../databinding/Ore_Databinding';
+import OreDatabinding from '../databinding/Ore_Controlbinding';
+import Spinner from 'react-native-loading-spinner-overlay'
+import { Component } from 'react';
+
+import {PropertyJson,Nanojson,Paramjson, Datamodel} from './Slider_Config'; 
+
+  export default class Slider extends Component  {
+  static navigationOptions = {
+    header: null
+  };
+  constructor(props) {
+    super(props);
+  this.state={
+    orepageproperty:PropertyJson,
+    ParamJson:Paramjson,
+    pagename:'Page_Drawer',
+    spinner:false,
+    datamodal: Datamodel
+  }
+}
+
+       
+	/* OreDrawer : Page_Drawer; */
+	/* OreDrawer : Page_Drawer; */
+	 _onPressItem=(item)=>{
+		this.state.draweritem = item;
+		 
+		 this.props.navigation.navigate(item[this.state.orepageproperty['Page_Drawer']['Property']['routeField']]); 
+	}
+	/* OreDrawer : Page_Drawer; */
+	componentDidMount=()=>{
+		this.props.navigation.addListener('willFocus', ()=>{
+		 Orefuncs.SetDate(this.state);
+		OreApibinding.AutoBind(this);
+ Orefuncs.EnableItemFromDrawer(this.state);
+		
+})
+	}
+	    callnanoflow = (evt) => {
+
+ Orefuncs.callnanoflow(evt,this,Nanojson)
+
+}
+   render(){
+      return (
+        <OreDrawer 
+        drawerStyle={this.state.orepageproperty['Page_Drawer']["Property"]["drawerStyle"]}
+		headerBackgroundImage={{uri:this.state.orepageproperty['Page_Drawer']["Property"]["headerBackgroundImagesource"]}}
+		listBackgroundImage={{uri:this.state.orepageproperty['Page_Drawer']["Property"]["listBackgroundImagesource"]}}
+ 
+	imageSize={this.state.orepageproperty['Page_Drawer']["Property"]["imageSize"]}
+	isHeader={this.state.orepageproperty['Page_Drawer']["Property"]["isHeader"]}
+         headerImage={{uri:this.state.orepageproperty['Page_Drawer']["Property"]["imagesource"]}}
+        headerHeading={this.state.orepageproperty['Page_Drawer']["Property"]["headerHeading"]}
+        headerContent={this.state.orepageproperty['Page_Drawer']["Property"]["headerContent"]}
+        dataSource={this.state.drawerdata}    
+       iconField={this.state.orepageproperty['Page_Drawer']["Property"]["iconField"]}
+        nameField={this.state.orepageproperty['Page_Drawer']["Property"]["nameField"]}
+         
+	   iconType={this.state.orepageproperty['Page_Drawer']["Property"]["iconType"]}
+        headingStyle={this.state.orepageproperty['Page_Drawer']["styles"]["headingStyle"]}
+		   headerStyle={this.state.orepageproperty['Page_Drawer']["styles"]["headerStyle"]}
+        contentStyle={this.state.orepageproperty['Page_Drawer']["styles"]["contentStyle"]}
+        listViewStyle={this.state.orepageproperty['Page_Drawer']["styles"]["listViewStyle"]}
+        listStyle={this.state.orepageproperty['Page_Drawer']["styles"]["listStyle"]}
+        listTextStyle={this.state.orepageproperty['Page_Drawer']["styles"]["listTextStyle"]}
+		
+		
+		
+       onPress={this._onPressItem.bind(this)} 
+	   
+        />
+      )
+    
+  } 
+
+ }

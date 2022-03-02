@@ -1,0 +1,111 @@
+/**
+ * OREOPS Mobile library v1.0.0 (https://www.oreops.com) 
+ * Copyright 2021 OREOPS Framework Pvt Ltd. All rights reserved.
+ * Module Name : Pages
+ * Module Description : Runtime page activity will be handled using below functions
+ */
+import React, { Component } from 'react';
+import { View, ScrollView, TouchableOpacity, Dimensions, ImageBackground, Linking, Image, SafeAreaView,BackHandler } from 'react-native';
+import axios from 'axios';
+import Orefuncs from 'react-native-oreopscore/components/OreOPS/general/Ore_GlobalMethods';
+import OreHeader from 'react-native-oreopscomponent/components/OreHeader';
+import OreShapes  from 'react-native-oreopscomponent/components/OreShapes';
+import OreTextBox from 'react-native-oreopscomponent/components/OreTextBox';
+import {PropertyJson,Nanojson,Paramjson, Datamodel} from './Account_Config'; 
+import OreAlert from 'react-native-oreopscomponent/components/OreAlert';
+import Oreframework from 'react-native-oreopscore/components/OreOPS/general/Ore_Framework';
+import OreApibinding from '../databinding/Ore_Databinding';
+import OreDatabinding from '../databinding/Ore_Controlbinding';
+import Spinner from 'react-native-loading-spinner-overlay';
+import orethemebuilder from '../oreconfig/Ore_Themebuilder';
+import Geolocation from '@react-native-community/geolocation';
+
+let OreStyle = orethemebuilder.getStylePath()
+ 
+export default class Account extends Component {
+	static navigationOptions = {
+		header: null
+	};
+	constructor(props) {
+		super(props);
+			 window.Page_01=this;
+			this.state = {
+				orepageproperty:PropertyJson,
+				ParamJson: Paramjson,
+				pagename: "Page_01",
+				spinner: false,
+				isvalid: true,
+				datamodal: OreApibinding.GetScreenModelData(Datamodel), 
+			}
+		}
+	componentDidMount =(evt)=>{
+		   
+		this.props.navigation.addListener('willFocus', ()=>{
+		 window.Page_01 = this;
+ OreApibinding.GetScreenModelDataNew(this, Datamodel);
+		Orefuncs.SetDate(this.state);
+		OreApibinding.AutoBind(this);
+}) 
+  BackHandler.addEventListener(
+'hardwareBackPress',
+this.handleBackButtonClick,
+);  
+	}
+handleBackButtonClick=()=>{
+ return this.state.orepageproperty["Page_01"]["Default"]["canBackPress"]
+}
+	/* OreTextBox : TextBox_1; */
+	onChangeText_50010=(evt)=>{
+		this.state.orepageproperty['TextBox_1']["Property"]["value"]= evt; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+	/* OreTextBox : TextBox_2; */
+	onChangeText_50014=(evt)=>{
+		this.state.orepageproperty['TextBox_2']["Property"]["value"]= evt; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+	/* OreTextBox : TextBox_3; */
+	onChangeText_50019=(evt)=>{
+		this.state.orepageproperty['TextBox_3']["Property"]["value"]= evt; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+	/* OreTextBox : TextBox_4; */
+	onChangeText_50026=(evt)=>{
+		this.state.orepageproperty['TextBox_4']["Property"]["value"]= evt; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+	/* OreTextBox : TextBox_5; */
+	onChangeText_50033=(evt)=>{
+		this.state.orepageproperty['TextBox_5']["Property"]["value"]= evt; 
+		this.setState({orepageproperty: this.state.orepageproperty});
+	}
+
+	callnanoflow = (evt) => {
+		Orefuncs.callnanoflow(evt, this, Nanojson)
+	}
+render() {
+	return (
+		<ImageBackground imageStyle={{resizeMode: 'stretch'}} style={[OreStyle.PageStyle, this.state.orepageproperty['Page_01']["styles"]]} source={{uri:this.state.orepageproperty['Page_01']["Property"]["backgroundImage"]}}>
+ 	 		<View >
+				<OreHeader title={this.state.orepageproperty['Header_1']["Property"]["title"]} lefticon={this.state.orepageproperty['Header_1']["Property"]["lefticon"]}  lefticonsize={this.state.orepageproperty['Header_1']["Property"]["lefticonsizevalue"]} righticon1={this.state.orepageproperty['Header_1']["Property"]["righticon1"]}  righticon1size={this.state.orepageproperty['Header_1']["Property"]["righticon1sizevalue"]} righticon2={this.state.orepageproperty['Header_1']["Property"]["righticon2"]}  righticon2size={this.state.orepageproperty['Header_1']["Property"]["righticon2sizevalue"]}    style={this.state.orepageproperty['Header_1']["styles"]} textstyle={this.state.orepageproperty['Header_1']["textstyle"]} disabled={this.state.orepageproperty['Header_1']["Property"]["disabled"]}  lefticontype={this.state.orepageproperty['Header_1']["Property"]["lefticontype"]} righticon1type={this.state.orepageproperty['Header_1']["Property"]["righticon1type"]} righticon2type={this.state.orepageproperty['Header_1']["Property"]["righticon2type"]}  placement={this.state.orepageproperty['Header_1']["Property"]["textAlign"]} />
+			</View> 
+			<ScrollView  style = {{ overflow: "scroll" }} >
+			<SafeAreaView style={{flex: 1}}>
+				<Spinner visible={this.state.spinner} />
+				<View style ={ { height:Oreframework.getH(303.00,318,560)} }>
+					<View style={{ height: Oreframework.getH(150,318,560), width: Oreframework.getW(150,318,560), top: Oreframework.getH(18,318,560), left: Oreframework.getW(84,318,560), position:'absolute', alignItems: 'center' }}><OreShapes style={this.state.orepageproperty['Circle_1']["styles"]} viewStyle={this.state.orepageproperty['Circle_1']["viewStyle"]} imageStyle={this.state.orepageproperty['Circle_1']["imageStyle"]} source={this.state.orepageproperty['Circle_1']["Property"]["assetlink"]}  property={this.state.orepageproperty['Circle_1']["Property"]}/></View>
+					<OreTextBox style={this.state.orepageproperty['TextBox_1']["styles"]} type={this.state.orepageproperty['TextBox_1']["Property"]["type"]} value={this.state.orepageproperty['TextBox_1']["Property"]["value"]}  secureTextEntry={this.state.orepageproperty['TextBox_1']["Property"]["secureTextEntry"]} keyboardType={this.state.orepageproperty['TextBox_1']["Property"]["keyboardType"]} placeholder={this.state.orepageproperty['TextBox_1']["Property"]["placeHolder"]} placeholderTextColor={this.state.orepageproperty['TextBox_1']["Property"]["placeHolderTextColor"]} multiline={this.state.orepageproperty['TextBox_1']["Property"]["multiline"]} numberOfLines={this.state.orepageproperty['TextBox_1']["Property"]["numOfLines"]} maxLength={this.state.orepageproperty['TextBox_1']["Property"]["maxLength"]} disabled={this.state.orepageproperty['TextBox_1']["Property"]["disabled"]} textstyle={this.state.orepageproperty['TextBox_1']["textstyle"]} viewstyle={this.state.orepageproperty['TextBox_1']["viewstyle"]} title={this.state.orepageproperty['TextBox_1']["title"]} inputRef={(input) => {this.TextBox_1 = input}} onChangeText={this.onChangeText_50010} />
+					<OreTextBox style={this.state.orepageproperty['TextBox_2']["styles"]} type={this.state.orepageproperty['TextBox_2']["Property"]["type"]} value={this.state.orepageproperty['TextBox_2']["Property"]["value"]}  secureTextEntry={this.state.orepageproperty['TextBox_2']["Property"]["secureTextEntry"]} keyboardType={this.state.orepageproperty['TextBox_2']["Property"]["keyboardType"]} placeholder={this.state.orepageproperty['TextBox_2']["Property"]["placeHolder"]} placeholderTextColor={this.state.orepageproperty['TextBox_2']["Property"]["placeHolderTextColor"]} multiline={this.state.orepageproperty['TextBox_2']["Property"]["multiline"]} numberOfLines={this.state.orepageproperty['TextBox_2']["Property"]["numOfLines"]} maxLength={this.state.orepageproperty['TextBox_2']["Property"]["maxLength"]} disabled={this.state.orepageproperty['TextBox_2']["Property"]["disabled"]} textstyle={this.state.orepageproperty['TextBox_2']["textstyle"]} viewstyle={this.state.orepageproperty['TextBox_2']["viewstyle"]} title={this.state.orepageproperty['TextBox_2']["title"]} inputRef={(input) => {this.TextBox_2 = input}} onChangeText={this.onChangeText_50014} />
+				</View>
+				<View style ={ { height:Oreframework.getH(218,318,560)} }>
+					<OreTextBox style={this.state.orepageproperty['TextBox_3']["styles"]} type={this.state.orepageproperty['TextBox_3']["Property"]["type"]} value={this.state.orepageproperty['TextBox_3']["Property"]["value"]}  secureTextEntry={this.state.orepageproperty['TextBox_3']["Property"]["secureTextEntry"]} keyboardType={this.state.orepageproperty['TextBox_3']["Property"]["keyboardType"]} placeholder={this.state.orepageproperty['TextBox_3']["Property"]["placeHolder"]} placeholderTextColor={this.state.orepageproperty['TextBox_3']["Property"]["placeHolderTextColor"]} multiline={this.state.orepageproperty['TextBox_3']["Property"]["multiline"]} numberOfLines={this.state.orepageproperty['TextBox_3']["Property"]["numOfLines"]} maxLength={this.state.orepageproperty['TextBox_3']["Property"]["maxLength"]} disabled={this.state.orepageproperty['TextBox_3']["Property"]["disabled"]} textstyle={this.state.orepageproperty['TextBox_3']["textstyle"]} viewstyle={this.state.orepageproperty['TextBox_3']["viewstyle"]} title={this.state.orepageproperty['TextBox_3']["title"]} inputRef={(input) => {this.TextBox_3 = input}} onChangeText={this.onChangeText_50019} />
+					<OreTextBox style={this.state.orepageproperty['TextBox_4']["styles"]} type={this.state.orepageproperty['TextBox_4']["Property"]["type"]} value={this.state.orepageproperty['TextBox_4']["Property"]["value"]}  secureTextEntry={this.state.orepageproperty['TextBox_4']["Property"]["secureTextEntry"]} keyboardType={this.state.orepageproperty['TextBox_4']["Property"]["keyboardType"]} placeholder={this.state.orepageproperty['TextBox_4']["Property"]["placeHolder"]} placeholderTextColor={this.state.orepageproperty['TextBox_4']["Property"]["placeHolderTextColor"]} multiline={this.state.orepageproperty['TextBox_4']["Property"]["multiline"]} numberOfLines={this.state.orepageproperty['TextBox_4']["Property"]["numOfLines"]} maxLength={this.state.orepageproperty['TextBox_4']["Property"]["maxLength"]} disabled={this.state.orepageproperty['TextBox_4']["Property"]["disabled"]} textstyle={this.state.orepageproperty['TextBox_4']["textstyle"]} viewstyle={this.state.orepageproperty['TextBox_4']["viewstyle"]} title={this.state.orepageproperty['TextBox_4']["title"]} inputRef={(input) => {this.TextBox_4 = input}} onChangeText={this.onChangeText_50026} />
+					<OreTextBox style={this.state.orepageproperty['TextBox_5']["styles"]} type={this.state.orepageproperty['TextBox_5']["Property"]["type"]} value={this.state.orepageproperty['TextBox_5']["Property"]["value"]}  secureTextEntry={this.state.orepageproperty['TextBox_5']["Property"]["secureTextEntry"]} keyboardType={this.state.orepageproperty['TextBox_5']["Property"]["keyboardType"]} placeholder={this.state.orepageproperty['TextBox_5']["Property"]["placeHolder"]} placeholderTextColor={this.state.orepageproperty['TextBox_5']["Property"]["placeHolderTextColor"]} multiline={this.state.orepageproperty['TextBox_5']["Property"]["multiline"]} numberOfLines={this.state.orepageproperty['TextBox_5']["Property"]["numOfLines"]} maxLength={this.state.orepageproperty['TextBox_5']["Property"]["maxLength"]} disabled={this.state.orepageproperty['TextBox_5']["Property"]["disabled"]} textstyle={this.state.orepageproperty['TextBox_5']["textstyle"]} viewstyle={this.state.orepageproperty['TextBox_5']["viewstyle"]} title={this.state.orepageproperty['TextBox_5']["title"]} inputRef={(input) => {this.TextBox_5 = input}} onChangeText={this.onChangeText_50033} />
+				</View>	
+			</SafeAreaView>
+			</ScrollView > 
+		</ImageBackground >
+
+   );
+  }
+ }
